@@ -82,6 +82,7 @@ h1 {
 li {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   padding: 10px 20px;
   list-style: none;
 }
@@ -102,6 +103,12 @@ li {
 .complete {
   color: rgb(15, 179, 69);
   font-weight: bold;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: grey;
+  font-size: 14px;
 }
 
 .edit {
