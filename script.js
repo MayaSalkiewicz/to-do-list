@@ -1,34 +1,38 @@
-const form = document.querySelector("form");
-const addButton = document.querySelector(".add");
-const input = document.querySelector("input");
-const taskList = document.querySelector("ul");
-const allTasks = document.getElementsByClassName("task");
-const taskNumber = document.querySelector("div span");
-const deleteAll = document.querySelector(".delete-all");
+const input = document.querySelector(".todo-input");
+const addBtn = document.querySelector(".add-btn");
+const alertInfo = document.querySelector(".alert-info");
 
-const removeTask = (e) => {
-  e.target.parentNode.remove();
-  taskNumber.textContent = allTasks.length;
+const todoList = document.querySelector("ul");
+
+const tools = document.querySelectorAll(".tools");
+const completeBtn = document.querySelector(".complete");
+const editBtn = document.querySelector(".edit");
+const deleteBtn = document.querySelector(".delete");
+const popup = document.querySelector(".popup");
+const popupInput = document.querySelector(".popup-input");
+const acceptBtn = document.querySelector(".popup-btn accept");
+const cancelBtn = document.querySelector(".popup-btn cancel");
+
+let idNumber = 0;
+
+const addNewTask = () => {
+  if (input.value !== "") {
+    idNumber++;
+    const task = document.createElement("li");
+    task.textContent = input.value;
+    task.setAttribute("id", `todo-${idNumber}`);
+    task.appendChild(tools);
+    todoList.appendChild(task);
+  } else {
+    alertInfo.innerText = "Please, write your task!";
+  }
 };
 
-const addNewTask = (e) => {
-  e.preventDefault();
-  const newTask = input.value;
-  const task = document.createElement("li");
-  task.className = "task";
-  task.innerHTML = newTask + "<button>Usuń</button>";
-
-  taskList.appendChild(task);
-  input.value = "";
-  taskNumber.textContent = allTasks.length;
-  task.addEventListener("click", removeTask);
+const enterCheck = (event) => {
+  if (event.keyCode === 13) {
+    addNewTask();
+  }
 };
 
-form.addEventListener("submit", addNewTask);
-
-const removeAll = () => {
-  taskList.textContent = "";
-  taskNumber.textContent = 0;
-};
-
-deleteAll.addEventListener("click", removeAll);
+addBtn.addEventListener("click", addNewTask);
+input.addEventListener("keydown", enterCheck);
