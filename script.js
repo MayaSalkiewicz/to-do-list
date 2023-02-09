@@ -3,6 +3,7 @@ const addBtn = document.querySelector(".add-btn");
 const alertInfo = document.querySelector(".alert-info");
 
 const todoList = document.querySelector("ul");
+const allTasks = document.getElementsByTagName("li");
 
 const tools = document.querySelectorAll(".tools");
 const completeBtn = document.querySelector(".complete");
@@ -10,8 +11,8 @@ const editBtn = document.querySelector(".edit");
 const deleteBtn = document.querySelector(".delete");
 const popup = document.querySelector(".popup");
 const popupInput = document.querySelector(".popup-input");
-const acceptBtn = document.querySelector(".popup-btn accept");
-const cancelBtn = document.querySelector(".popup-btn cancel");
+const acceptBtn = document.querySelector(".accept");
+const cancelBtn = document.querySelector(".cancel");
 
 let idNumber = 0;
 
@@ -57,14 +58,30 @@ const enterCheck = (event) => {
   }
 };
 
+const editTask = (e) => {
+  const oldTodo = e.target.closest("li").id;
+  const editedTodo = document.getElementById(oldTodo);
+  popupInput.value = editedTodo.firstChild.textContent;
+  popup.style.display = "flex";
+  acceptBtn.addEventListener("click", () => {
+    editedTodo.firstChild.textContent = popupInput.value;
+    popup.style.display = "none";
+  });
+  cancelBtn.addEventListener("click", () => {
+    popup.style.display = "none";
+  });
+};
+
 const checkClick = (e) => {
   if (e.target.closest("button").classList.contains("complete")) {
     e.target.closest("li").classList.toggle("completed");
   } else if (e.target.closest("button").classList.contains("edit")) {
-    popup.style.display = "flex";
-    editTask();
+    editTask(e);
   } else if (e.target.closest("button").classList.contains("delete")) {
     e.target.closest("li").remove();
+    if (allTasks.length === 0) {
+      alertInfo.innerText = "No tasks for today";
+    }
   }
 };
 
